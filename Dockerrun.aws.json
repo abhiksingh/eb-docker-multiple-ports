@@ -16,7 +16,7 @@
       "memory": 1024,
       "portMappings": [
         {
-          "hostPort": 8080,
+          "hostPort": 80,
           "containerPort": 8080
         },
         {
@@ -31,8 +31,7 @@
         },
         {
           "sourceVolume": "wildfly-app",
-          "containerPath": "/opt/jboss/wildfly/standalone/deployments",
-          "readOnly": true
+          "containerPath": "/opt/jboss/wildfly/standalone/deployments"
         }
       ]
     }
