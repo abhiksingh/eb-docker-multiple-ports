@@ -2,60 +2,36 @@
   "AWSEBDockerrunVersion": 2,
   "volumes": [
     {
-      "name": "node-app",
+      "name": "wildfly-app",
       "host": {
-        "sourcePath": "/var/app/current/node-app"
-      }
-    },
-    {
-      "name": "tomcat-app",
-      "host": {
-        "sourcePath": "/var/app/current/tomcat-app"
+        "sourcePath": "/var/app/current/source"
       }
     }
   ],
   "containerDefinitions": [
     {
-      "name": "node-app",
-      "image": "node:0.12",
+      "name": "wildfly-app",
+      "image": "jboss/wildfly",
       "essential": true,
-      "memory": 128,
-      "portMappings": [
-        {
-          "hostPort": 80,
-          "containerPort": 8000
-        }
-      ],
-      "command": [
-        "/bin/bash",
-        "/usr/src/app/run.sh"
-      ],
-      "mountPoints": [
-        {
-          "sourceVolume": "node-app",
-          "containerPath": "/usr/src/app"
-        }
-      ]
-    },
-    {
-      "name": "tomcat-app",
-      "image": "tomcat:8.0",
-      "essential": true,
-      "memory": 256,
+      "memory": 1024,
       "portMappings": [
         {
           "hostPort": 8080,
           "containerPort": 8080
-        }
+        },
+        {
+          "hostPort": 9990,
+          "containerPort": 9990
+        }       
       ],
       "mountPoints": [
         {
-          "sourceVolume": "awseb-logs-tomcat-app",
-          "containerPath": "/usr/local/tomcat/logs"
+          "sourceVolume": "awseb-logs-wildfly-app",
+          "containerPath": "/opt/wildfly/standalone/log"
         },
         {
-          "sourceVolume": "tomcat-app",
-          "containerPath": "/usr/local/tomcat/webapps/ROOT",
+          "sourceVolume": "wildfly-app",
+          "containerPath": "/opt/jboss/wildfly/standalone/deployments",
           "readOnly": true
         }
       ]
